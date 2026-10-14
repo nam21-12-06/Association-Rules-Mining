@@ -54,7 +54,9 @@ CUSTOM_CSS = """
        Adaptive Dynamic Design System
        Inherits Streamlit theme tokens, system themes, and viewports
        ----------------------------------------------------------------------- */
-    :root {
+    :root,
+    .stApp,
+    [data-testid="stAppViewContainer"] {
         --primary: #2563eb;
         --primary-hover: #1d4ed8;
         --primary-active: #1e40af;
@@ -73,9 +75,11 @@ CUSTOM_CSS = """
         --shadow-hover: 0 8px 24px -4px rgba(37, 99, 235, 0.16);
     }
 
-    /* Auto Dark Mode Adaptation (if host machine or Streamlit is configured in Dark Mode) */
+    /* Auto Dark Mode Adaptation (Operating System or Streamlit Dark Theme) */
     @media (prefers-color-scheme: dark) {
-        :root {
+        :root,
+        .stApp,
+        [data-testid="stAppViewContainer"] {
             --bg-main: var(--background-color, #0b0f19);
             --card-bg: var(--secondary-background-color, #131c2e);
             --card-hover-border: #3b82f6;
@@ -89,6 +93,7 @@ CUSTOM_CSS = """
         }
     }
 
+    /* Streamlit in-app Dark Theme overrides */
     [data-theme="dark"],
     [data-testid="stAppViewContainer"][data-theme="dark"],
     .stApp[data-theme="dark"] {
@@ -102,6 +107,28 @@ CUSTOM_CSS = """
         --chip-text: #cbd5e1;
         --primary-light: rgba(37, 99, 235, 0.2);
         --primary-border: rgba(96, 165, 250, 0.35);
+    }
+
+    /* Plotly Chart High-Contrast Theme Adaptation (Light & Dark Mode) */
+    .js-plotly-plot .plotly svg text.gtitle,
+    .js-plotly-plot .plotly svg .infolayer text.gtitle,
+    .js-plotly-plot .plotly svg .infolayer .g-gtitle text,
+    .js-plotly-plot .plotly svg .infolayer .legend text,
+    .js-plotly-plot .plotly svg text.legendtext,
+    .js-plotly-plot .plotly svg text.xtitle,
+    .js-plotly-plot .plotly svg text.ytitle,
+    .js-plotly-plot .plotly svg .xtick text,
+    .js-plotly-plot .plotly svg .ytick text,
+    .js-plotly-plot .plotly svg .cbaxis text,
+    .js-plotly-plot .plotly svg .textpoint text {
+        fill: var(--text-main) !important;
+        color: var(--text-main) !important;
+    }
+    .js-plotly-plot .plotly svg .gridpath {
+        stroke: var(--border-color) !important;
+    }
+    .js-plotly-plot .plotly svg .zeroline {
+        stroke: var(--border-color) !important;
     }
 
     .stApp {
@@ -396,19 +423,19 @@ CUSTOM_CSS = """
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
     }
     .badge-frequent {
-        background: #ecfdf5;
-        color: #065f46 !important;
-        border: 1px solid #a7f3d0;
+        background: rgba(16, 185, 129, 0.12);
+        color: #059669 !important;
+        border: 1px solid rgba(16, 185, 129, 0.35);
     }
     .badge-pruned {
-        background: #fffbeb;
-        color: #92400e !important;
-        border: 1px solid #fde68a;
+        background: rgba(245, 158, 11, 0.12);
+        color: #d97706 !important;
+        border: 1px solid rgba(245, 158, 11, 0.35);
     }
     .badge-infrequent {
-        background: #fef2f2;
-        color: #991b1b !important;
-        border: 1px solid #fecaca;
+        background: rgba(239, 68, 68, 0.12);
+        color: #dc2626 !important;
+        border: 1px solid rgba(239, 68, 68, 0.35);
     }
     .badge-blue {
         background: var(--primary-light);
@@ -497,6 +524,28 @@ CUSTOM_CSS = """
         font-weight: 700;
         color: var(--primary);
         letter-spacing: -0.01em;
+    }
+    .academic-callout.callout-pruning {
+        border-left-color: #f59e0b !important;
+    }
+    .academic-callout.callout-pruning .callout-title {
+        color: #d97706 !important;
+    }
+    .academic-callout.callout-pruning .academic-badge {
+        color: #d97706 !important;
+        border-color: rgba(245, 158, 11, 0.4) !important;
+        background: rgba(245, 158, 11, 0.12) !important;
+    }
+    .academic-callout.callout-principle {
+        border-left-color: var(--text-muted) !important;
+    }
+    .academic-callout.callout-principle .callout-title {
+        color: var(--text-main) !important;
+    }
+    .academic-callout.callout-principle .academic-badge {
+        color: var(--text-muted) !important;
+        border-color: var(--border-color) !important;
+        background: var(--chip-bg) !important;
     }
     .callout-body {
         display: flex;
@@ -2068,10 +2117,10 @@ def render_theory_reference():
                     </div>
                 </div>
 
-                <div class="academic-callout" style="border-left-color: #f59e0b;">
+                <div class="academic-callout callout-pruning">
                     <div class="callout-header">
-                        <span class="academic-badge" style="color: #b45309; border-color: #fde68a; background: #fffbeb;">[PRUNING SCENARIO]</span>
-                        <span class="callout-title" style="color: #92400e;">Concrete Pruning Walkthrough</span>
+                        <span class="academic-badge">[PRUNING SCENARIO]</span>
+                        <span class="callout-title">Concrete Pruning Walkthrough</span>
                     </div>
                     <div class="callout-body">
                         <div class="callout-statement">
@@ -2083,10 +2132,10 @@ def render_theory_reference():
                     </div>
                 </div>
 
-                <div class="academic-callout" style="border-left-color: #64748b;">
+                <div class="academic-callout callout-principle">
                     <div class="callout-header">
-                        <span class="academic-badge" style="color: #334155; border-color: #cbd5e1; background: #f8fafc;">[SCIENTIFIC PRINCIPLE]</span>
-                        <span class="callout-title" style="color: #334155;">Correlation vs. Causation</span>
+                        <span class="academic-badge">[SCIENTIFIC PRINCIPLE]</span>
+                        <span class="callout-title">Correlation vs. Causation</span>
                     </div>
                     <div class="callout-body">
                         <div class="callout-statement">
