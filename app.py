@@ -70,6 +70,9 @@ CUSTOM_CSS = """
         --border-color: rgba(148, 163, 184, 0.25);
         --chip-bg: rgba(241, 245, 249, 0.85);
         --chip-text: #334155;
+        --input-bg: #ffffff;
+        --input-text: #0f172a;
+        --input-border: #cbd5e1;
         --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
         --shadow-md: 0 4px 14px -2px rgba(37, 99, 235, 0.08);
         --shadow-hover: 0 8px 24px -4px rgba(37, 99, 235, 0.16);
@@ -88,6 +91,9 @@ CUSTOM_CSS = """
             --border-color: rgba(148, 163, 184, 0.2);
             --chip-bg: rgba(30, 41, 59, 0.85);
             --chip-text: #cbd5e1;
+            --input-bg: #1e293b;
+            --input-text: #f8fafc;
+            --input-border: #334155;
             --primary-light: rgba(37, 99, 235, 0.2);
             --primary-border: rgba(96, 165, 250, 0.35);
         }
@@ -105,6 +111,9 @@ CUSTOM_CSS = """
         --border-color: rgba(148, 163, 184, 0.2);
         --chip-bg: rgba(30, 41, 59, 0.85);
         --chip-text: #cbd5e1;
+        --input-bg: #1e293b;
+        --input-text: #f8fafc;
+        --input-border: #334155;
         --primary-light: rgba(37, 99, 235, 0.2);
         --primary-border: rgba(96, 165, 250, 0.35);
     }
@@ -135,6 +144,126 @@ CUSTOM_CSS = """
         background-color: var(--bg-main) !important;
         color: var(--text-main);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Universal Dynamic High-Contrast Widget Labels & Form Typography */
+    .stApp [data-testid="stWidgetLabel"],
+    .stApp [data-testid="stWidgetLabel"] p,
+    .stApp [data-testid="stWidgetLabel"] span,
+    .stApp [data-testid="stWidgetLabel"] label,
+    .stApp label,
+    .stApp label p,
+    .stApp label span {
+        color: var(--text-main) !important;
+        font-weight: 600 !important;
+    }
+
+    /* Tooltip icons */
+    .stApp [data-testid="stTooltipIcon"] svg,
+    .stApp [data-testid="stTooltipHoverTarget"] svg {
+        fill: var(--text-muted) !important;
+        color: var(--text-muted) !important;
+    }
+    .stApp [data-testid="stTooltipIcon"]:hover svg,
+    .stApp [data-testid="stTooltipHoverTarget"]:hover svg {
+        fill: var(--primary) !important;
+        color: var(--primary) !important;
+    }
+
+    /* Sliders High Contrast */
+    .stApp [data-testid="stSlider"] [data-testid="stWidgetLabel"] p {
+        color: var(--text-main) !important;
+        font-weight: 600 !important;
+    }
+    .stApp [data-testid="stSlider"] [data-testid="stThumbValue"],
+    .stApp [data-testid="stSlider"] [data-testid="stTickBarMin"],
+    .stApp [data-testid="stSlider"] [data-testid="stTickBarMax"],
+    .stApp [data-testid="stSlider"] div {
+        color: var(--text-main) !important;
+    }
+
+    /* Form Inputs (NumberInput, TextInput, SelectBox) */
+    .stApp input,
+    .stApp textarea {
+        background-color: var(--input-bg) !important;
+        color: var(--input-text) !important;
+        caret-color: var(--primary) !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 8px !important;
+    }
+    .stApp input:focus,
+    .stApp textarea:focus {
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 2px var(--primary-light) !important;
+    }
+    .stApp input::placeholder,
+    .stApp textarea::placeholder {
+        color: var(--text-muted) !important;
+    }
+
+    /* Selectbox base */
+    .stApp [data-baseweb="select"] > div {
+        background-color: var(--input-bg) !important;
+        color: var(--input-text) !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 8px !important;
+    }
+    .stApp [data-baseweb="select"] * {
+        color: var(--input-text) !important;
+    }
+    .stApp [data-baseweb="popover"],
+    .stApp [data-baseweb="menu"],
+    div[data-baseweb="popover"] ul,
+    div[data-baseweb="menu"] ul {
+        background-color: var(--card-bg) !important;
+        color: var(--input-text) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+    div[data-baseweb="menu"] li {
+        color: var(--input-text) !important;
+    }
+    div[data-baseweb="menu"] li:hover {
+        background-color: var(--primary-light) !important;
+        color: var(--primary) !important;
+    }
+
+    /* NumberInput +/- step buttons */
+    .stApp [data-testid="stNumberInput"] button {
+        background-color: var(--input-bg) !important;
+        color: var(--input-text) !important;
+        border: 1px solid var(--input-border) !important;
+    }
+    .stApp [data-testid="stNumberInput"] button:hover {
+        background-color: var(--primary-light) !important;
+        color: var(--primary) !important;
+        border-color: var(--primary) !important;
+    }
+
+    /* Markdown Text, Headings & Captions */
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+        color: var(--text-main) !important;
+    }
+    .stApp [data-testid="stMarkdownContainer"] p,
+    .stApp [data-testid="stMarkdownContainer"] li {
+        color: var(--text-main);
+    }
+    .stApp [data-testid="stCaptionContainer"],
+    .stApp [data-testid="stCaptionContainer"] p,
+    .stApp small {
+        color: var(--text-muted) !important;
+    }
+
+    /* Expanders */
+    .stApp [data-testid="stExpander"] {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 10px !important;
+    }
+    .stApp [data-testid="stExpander"] details summary,
+    .stApp [data-testid="stExpander"] details summary p,
+    .stApp [data-testid="stExpander"] details summary span {
+        color: var(--text-main) !important;
+        font-weight: 600 !important;
     }
 
     /* Top Header Space Optimization */
