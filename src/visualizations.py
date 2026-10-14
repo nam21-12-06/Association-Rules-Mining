@@ -46,17 +46,18 @@ CHART_LAYOUT = dict(
 
 def _apply_layout(fig, **kwargs):
     """Apply consistent layout to a plotly figure with responsive margins."""
+    fig.layout.template = None
     layout = {**CHART_LAYOUT, **kwargs}
     fig.update_layout(**layout)
     fig.update_xaxes(
         automargin=True,
-        gridcolor="rgba(148,163,184,0.2)",
-        zerolinecolor="rgba(148,163,184,0.25)",
+        gridcolor="rgba(148,163,184,0.18)",
+        zerolinecolor="rgba(148,163,184,0.22)",
     )
     fig.update_yaxes(
         automargin=True,
-        gridcolor="rgba(148,163,184,0.2)",
-        zerolinecolor="rgba(148,163,184,0.25)",
+        gridcolor="rgba(148,163,184,0.18)",
+        zerolinecolor="rgba(148,163,184,0.22)",
     )
     return fig
 
@@ -150,7 +151,7 @@ def plot_transaction_item_matrix(df_long, max_transactions=25):
         z=matrix,
         x=items,
         y=tids,
-        colorscale=[[0, "#f1f5f9"], [1, "#2563eb"]],
+        colorscale=[[0, "rgba(148,163,184,0.15)"], [1, "#2563eb"]],
         showscale=False,
         hovertemplate="Transaction: %{y}<br>Item: %{x}<br>Present: %{z}<extra></extra>",
     ))

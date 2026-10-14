@@ -54,7 +54,9 @@ CUSTOM_CSS = """
        Adaptive Dynamic Design System
        Inherits Streamlit theme tokens, system themes, and viewports
        ----------------------------------------------------------------------- */
-    :root {
+    :root,
+    .stApp,
+    [data-testid="stAppViewContainer"] {
         --primary: #2563eb;
         --primary-hover: #1d4ed8;
         --primary-active: #1e40af;
@@ -68,14 +70,19 @@ CUSTOM_CSS = """
         --border-color: rgba(148, 163, 184, 0.25);
         --chip-bg: rgba(241, 245, 249, 0.85);
         --chip-text: #334155;
+        --input-bg: #ffffff;
+        --input-text: #0f172a;
+        --input-border: #cbd5e1;
         --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
         --shadow-md: 0 4px 14px -2px rgba(37, 99, 235, 0.08);
         --shadow-hover: 0 8px 24px -4px rgba(37, 99, 235, 0.16);
     }
 
-    /* Auto Dark Mode Adaptation (if host machine or Streamlit is configured in Dark Mode) */
+    /* Auto Dark Mode Adaptation (Operating System or Streamlit Dark Theme) */
     @media (prefers-color-scheme: dark) {
-        :root {
+        :root,
+        .stApp,
+        [data-testid="stAppViewContainer"] {
             --bg-main: var(--background-color, #0b0f19);
             --card-bg: var(--secondary-background-color, #131c2e);
             --card-hover-border: #3b82f6;
@@ -84,11 +91,15 @@ CUSTOM_CSS = """
             --border-color: rgba(148, 163, 184, 0.2);
             --chip-bg: rgba(30, 41, 59, 0.85);
             --chip-text: #cbd5e1;
+            --input-bg: #1e293b;
+            --input-text: #f8fafc;
+            --input-border: #334155;
             --primary-light: rgba(37, 99, 235, 0.2);
             --primary-border: rgba(96, 165, 250, 0.35);
         }
     }
 
+    /* Streamlit in-app Dark Theme overrides */
     [data-theme="dark"],
     [data-testid="stAppViewContainer"][data-theme="dark"],
     .stApp[data-theme="dark"] {
@@ -100,14 +111,159 @@ CUSTOM_CSS = """
         --border-color: rgba(148, 163, 184, 0.2);
         --chip-bg: rgba(30, 41, 59, 0.85);
         --chip-text: #cbd5e1;
+        --input-bg: #1e293b;
+        --input-text: #f8fafc;
+        --input-border: #334155;
         --primary-light: rgba(37, 99, 235, 0.2);
         --primary-border: rgba(96, 165, 250, 0.35);
+    }
+
+    /* Plotly Chart High-Contrast Theme Adaptation (Light & Dark Mode) */
+    .js-plotly-plot .plotly svg text.gtitle,
+    .js-plotly-plot .plotly svg .infolayer text.gtitle,
+    .js-plotly-plot .plotly svg .infolayer .g-gtitle text,
+    .js-plotly-plot .plotly svg .infolayer .legend text,
+    .js-plotly-plot .plotly svg text.legendtext,
+    .js-plotly-plot .plotly svg text.xtitle,
+    .js-plotly-plot .plotly svg text.ytitle,
+    .js-plotly-plot .plotly svg .xtick text,
+    .js-plotly-plot .plotly svg .ytick text,
+    .js-plotly-plot .plotly svg .cbaxis text,
+    .js-plotly-plot .plotly svg .textpoint text {
+        fill: var(--text-main) !important;
+        color: var(--text-main) !important;
+    }
+    .js-plotly-plot .plotly svg .gridpath {
+        stroke: var(--border-color) !important;
+    }
+    .js-plotly-plot .plotly svg .zeroline {
+        stroke: var(--border-color) !important;
     }
 
     .stApp {
         background-color: var(--bg-main) !important;
         color: var(--text-main);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Universal Dynamic High-Contrast Widget Labels & Form Typography */
+    .stApp [data-testid="stWidgetLabel"],
+    .stApp [data-testid="stWidgetLabel"] p,
+    .stApp [data-testid="stWidgetLabel"] span,
+    .stApp [data-testid="stWidgetLabel"] label,
+    .stApp label,
+    .stApp label p,
+    .stApp label span {
+        color: var(--text-main) !important;
+        font-weight: 600 !important;
+    }
+
+    /* Tooltip icons */
+    .stApp [data-testid="stTooltipIcon"] svg,
+    .stApp [data-testid="stTooltipHoverTarget"] svg {
+        fill: var(--text-muted) !important;
+        color: var(--text-muted) !important;
+    }
+    .stApp [data-testid="stTooltipIcon"]:hover svg,
+    .stApp [data-testid="stTooltipHoverTarget"]:hover svg {
+        fill: var(--primary) !important;
+        color: var(--primary) !important;
+    }
+
+    /* Sliders High Contrast */
+    .stApp [data-testid="stSlider"] [data-testid="stWidgetLabel"] p {
+        color: var(--text-main) !important;
+        font-weight: 600 !important;
+    }
+    .stApp [data-testid="stSlider"] [data-testid="stThumbValue"],
+    .stApp [data-testid="stSlider"] [data-testid="stTickBarMin"],
+    .stApp [data-testid="stSlider"] [data-testid="stTickBarMax"],
+    .stApp [data-testid="stSlider"] div {
+        color: var(--text-main) !important;
+    }
+
+    /* Form Inputs (NumberInput, TextInput, SelectBox) */
+    .stApp input,
+    .stApp textarea {
+        background-color: var(--input-bg) !important;
+        color: var(--input-text) !important;
+        caret-color: var(--primary) !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 8px !important;
+    }
+    .stApp input:focus,
+    .stApp textarea:focus {
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 2px var(--primary-light) !important;
+    }
+    .stApp input::placeholder,
+    .stApp textarea::placeholder {
+        color: var(--text-muted) !important;
+    }
+
+    /* Selectbox base */
+    .stApp [data-baseweb="select"] > div {
+        background-color: var(--input-bg) !important;
+        color: var(--input-text) !important;
+        border: 1px solid var(--input-border) !important;
+        border-radius: 8px !important;
+    }
+    .stApp [data-baseweb="select"] * {
+        color: var(--input-text) !important;
+    }
+    .stApp [data-baseweb="popover"],
+    .stApp [data-baseweb="menu"],
+    div[data-baseweb="popover"] ul,
+    div[data-baseweb="menu"] ul {
+        background-color: var(--card-bg) !important;
+        color: var(--input-text) !important;
+        border: 1px solid var(--border-color) !important;
+    }
+    div[data-baseweb="menu"] li {
+        color: var(--input-text) !important;
+    }
+    div[data-baseweb="menu"] li:hover {
+        background-color: var(--primary-light) !important;
+        color: var(--primary) !important;
+    }
+
+    /* NumberInput +/- step buttons */
+    .stApp [data-testid="stNumberInput"] button {
+        background-color: var(--input-bg) !important;
+        color: var(--input-text) !important;
+        border: 1px solid var(--input-border) !important;
+    }
+    .stApp [data-testid="stNumberInput"] button:hover {
+        background-color: var(--primary-light) !important;
+        color: var(--primary) !important;
+        border-color: var(--primary) !important;
+    }
+
+    /* Markdown Text, Headings & Captions */
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+        color: var(--text-main) !important;
+    }
+    .stApp [data-testid="stMarkdownContainer"] p,
+    .stApp [data-testid="stMarkdownContainer"] li {
+        color: var(--text-main);
+    }
+    .stApp [data-testid="stCaptionContainer"],
+    .stApp [data-testid="stCaptionContainer"] p,
+    .stApp small {
+        color: var(--text-muted) !important;
+    }
+
+    /* Expanders */
+    .stApp [data-testid="stExpander"] {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 10px !important;
+    }
+    .stApp [data-testid="stExpander"] details summary,
+    .stApp [data-testid="stExpander"] details summary p,
+    .stApp [data-testid="stExpander"] details summary span {
+        color: var(--text-main) !important;
+        font-weight: 600 !important;
     }
 
     /* Top Header Space Optimization */
@@ -396,19 +552,19 @@ CUSTOM_CSS = """
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
     }
     .badge-frequent {
-        background: #ecfdf5;
-        color: #065f46 !important;
-        border: 1px solid #a7f3d0;
+        background: rgba(16, 185, 129, 0.12);
+        color: #059669 !important;
+        border: 1px solid rgba(16, 185, 129, 0.35);
     }
     .badge-pruned {
-        background: #fffbeb;
-        color: #92400e !important;
-        border: 1px solid #fde68a;
+        background: rgba(245, 158, 11, 0.12);
+        color: #d97706 !important;
+        border: 1px solid rgba(245, 158, 11, 0.35);
     }
     .badge-infrequent {
-        background: #fef2f2;
-        color: #991b1b !important;
-        border: 1px solid #fecaca;
+        background: rgba(239, 68, 68, 0.12);
+        color: #dc2626 !important;
+        border: 1px solid rgba(239, 68, 68, 0.35);
     }
     .badge-blue {
         background: var(--primary-light);
@@ -497,6 +653,28 @@ CUSTOM_CSS = """
         font-weight: 700;
         color: var(--primary);
         letter-spacing: -0.01em;
+    }
+    .academic-callout.callout-pruning {
+        border-left-color: #f59e0b !important;
+    }
+    .academic-callout.callout-pruning .callout-title {
+        color: #d97706 !important;
+    }
+    .academic-callout.callout-pruning .academic-badge {
+        color: #d97706 !important;
+        border-color: rgba(245, 158, 11, 0.4) !important;
+        background: rgba(245, 158, 11, 0.12) !important;
+    }
+    .academic-callout.callout-principle {
+        border-left-color: var(--text-muted) !important;
+    }
+    .academic-callout.callout-principle .callout-title {
+        color: var(--text-main) !important;
+    }
+    .academic-callout.callout-principle .academic-badge {
+        color: var(--text-muted) !important;
+        border-color: var(--border-color) !important;
+        background: var(--chip-bg) !important;
     }
     .callout-body {
         display: flex;
@@ -2068,10 +2246,10 @@ def render_theory_reference():
                     </div>
                 </div>
 
-                <div class="academic-callout" style="border-left-color: #f59e0b;">
+                <div class="academic-callout callout-pruning">
                     <div class="callout-header">
-                        <span class="academic-badge" style="color: #b45309; border-color: #fde68a; background: #fffbeb;">[PRUNING SCENARIO]</span>
-                        <span class="callout-title" style="color: #92400e;">Concrete Pruning Walkthrough</span>
+                        <span class="academic-badge">[PRUNING SCENARIO]</span>
+                        <span class="callout-title">Concrete Pruning Walkthrough</span>
                     </div>
                     <div class="callout-body">
                         <div class="callout-statement">
@@ -2083,10 +2261,10 @@ def render_theory_reference():
                     </div>
                 </div>
 
-                <div class="academic-callout" style="border-left-color: #64748b;">
+                <div class="academic-callout callout-principle">
                     <div class="callout-header">
-                        <span class="academic-badge" style="color: #334155; border-color: #cbd5e1; background: #f8fafc;">[SCIENTIFIC PRINCIPLE]</span>
-                        <span class="callout-title" style="color: #334155;">Correlation vs. Causation</span>
+                        <span class="academic-badge">[SCIENTIFIC PRINCIPLE]</span>
+                        <span class="callout-title">Correlation vs. Causation</span>
                     </div>
                     <div class="callout-body">
                         <div class="callout-statement">
